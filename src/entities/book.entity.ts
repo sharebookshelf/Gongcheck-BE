@@ -5,9 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Index,
-  ManyToMany,
+  OneToMany,
 } from 'typeorm';
-import { User } from './user.entity';
+
+import { UserBook } from './userBook.entity';
 
 @Entity('book')
 @Index('book_index', ['title', 'author', 'publisher'], { fulltext: true })
@@ -24,36 +25,36 @@ export class Book {
   @Column({ length: 255, comment: '출판사' })
   publisher: string;
 
-  @Column({ length: 255, comment: '표지 이미지 url' })
+  @Column({ nullable: true, length: 255, comment: '표지 이미지 url' })
   titleUrl: string;
 
-  @Column({ length: 255, comment: 'ISBN 부가기호' })
+  @Column({ nullable: true, length: 255, comment: 'ISBN 부가기호' })
   eaAddCode: string;
 
-  @Column({ length: 20, comment: 'ISBN' })
+  @Column({ nullable: true, length: 20, comment: 'ISBN' })
   eaIsbn: string;
 
-  @Column({ length: 20, comment: '세트 ISBN' })
+  @Column({ nullable: true, length: 20, comment: '세트 ISBN' })
   setIsbn: string;
 
-  @Column({ length: 255, comment: '세트 부가기호' })
+  @Column({ nullable: true, length: 255, comment: '세트 부가기호' })
   setAddCode: string;
 
-  @Column({ length: 10, comment: '예정 가격' })
+  @Column({ nullable: true, length: 10, comment: '예정 가격' })
   prePrice: string;
 
-  @Column({ length: 8, comment: '등록 날짜' })
+  @Column({ nullable: true, length: 8, comment: '등록 날짜' })
   inputDate: string;
 
-  @CreateDateColumn({ nullable: true, comment: '생성 시간' })
+  @CreateDateColumn({ comment: '생성 시간' })
   createdAt: Date;
 
-  @UpdateDateColumn({ nullable: true, comment: '수정 시간' })
+  @UpdateDateColumn({ comment: '수정 시간' })
   updatedAt: Date;
 
   @Column({ length: 1, nullable: true, comment: '상태' })
   status?: string;
 
-  @ManyToMany(() => User)
-  users: User[];
+  @OneToMany(() => UserBook, (userBook) => userBook.book)
+  userBooks: UserBook[];
 }

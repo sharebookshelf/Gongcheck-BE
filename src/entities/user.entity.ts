@@ -4,10 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToMany,
-  JoinTable,
+  OneToMany,
 } from 'typeorm';
-import { Book } from './book.entity';
+import { UserBook } from './userBook.entity';
 
 @Entity('user')
 export class User {
@@ -32,29 +31,15 @@ export class User {
   @Column({ type: 'text', nullable: true, comment: '피드백' })
   feedback?: string;
 
-  @CreateDateColumn({ nullable: true, comment: '생성 시간' })
+  @CreateDateColumn({ comment: '생성 시간' })
   createdAt: Date;
 
-  @UpdateDateColumn({ nullable: true, comment: '수정 시간' })
+  @UpdateDateColumn({ comment: '수정 시간' })
   updatedAt: Date;
 
   @Column({ length: 1, nullable: true, comment: '상태' })
   status?: string;
 
-  @Column({ length: 1, nullable: true, comment: '번호' })
-  phoneNumber?: string;
-
-  @ManyToMany(() => Book)
-  @JoinTable({
-    name: 'user_book', // 중간 테이블 이름
-    joinColumn: {
-      name: 'userID',
-      referencedColumnName: 'userID',
-    },
-    inverseJoinColumn: {
-      name: 'bookID',
-      referencedColumnName: 'bookID',
-    },
-  })
-  books: Book[];
+  @OneToMany(() => UserBook, (userBook) => userBook.book)
+  userBooks: UserBook[];
 }
