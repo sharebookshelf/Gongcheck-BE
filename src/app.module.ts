@@ -2,23 +2,15 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import AppConfig from '../src/config/app.config';
-import { ConnectionOptions } from 'mysql2';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmConfig } from './config/typeorm.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: false,
-      load: [AppConfig],
+      isGlobal: true,
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => {
-        return configService.get<ConnectionOptions>('database');
-      },
-      inject: [ConfigService],
-    }),
+    TypeOrmModule.forRootAsync(TypeOrmConfig),
   ],
   controllers: [AppController],
   providers: [AppService],

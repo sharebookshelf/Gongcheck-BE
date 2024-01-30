@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { UserBook } from './userBook.entity';
 
-@Entity('user')
+@Entity()
 export class User {
   @PrimaryGeneratedColumn()
   userID: number;
@@ -41,5 +41,5 @@ export class User {
   status?: string;
 
   @OneToMany(() => UserBook, (userBook) => userBook.book)
-  userBooks: UserBook[];
+  userBook: UserBook[];
 }

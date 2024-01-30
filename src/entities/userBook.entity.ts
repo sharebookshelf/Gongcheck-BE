@@ -5,16 +5,13 @@ import { Book } from './book.entity';
 @Entity()
 export class UserBook {
   @PrimaryColumn()
-  userId: number;
+  userBookId: number;
 
-  @PrimaryColumn()
-  bookId: number;
-
-  @ManyToOne(() => User, (user) => user.userBooks)
+  @ManyToOne(() => User, (user) => user.userBook)
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  @ManyToOne(() => Book, (book) => book.userBooks)
+  @ManyToOne(() => Book, (book) => book.userBook)
   @JoinColumn({ name: 'bookId' })
   book: Book;
 }

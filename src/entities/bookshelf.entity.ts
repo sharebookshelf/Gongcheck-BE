@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { User } from './user.entity';
 
-@Entity('bookshelf')
+@Entity()
 export class Bookshelf {
   @PrimaryColumn({ length: 255, comment: '이미지 경로' })
   bookShelfImage: string;
