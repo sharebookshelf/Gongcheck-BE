@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { User } from './user.entity';
 
-@Entity('bookshelf')
+@Entity()
 export class Bookshelf {
   @PrimaryColumn({ length: 255, comment: '이미지 경로' })
   bookShelfImage: string;
@@ -17,10 +17,10 @@ export class Bookshelf {
   @Column()
   userID: number;
 
-  @CreateDateColumn({ nullable: true, comment: '생성 시간' })
+  @CreateDateColumn({ comment: '생성 시간' })
   createdAt: Date;
 
-  @UpdateDateColumn({ nullable: true, comment: '수정 시간' })
+  @UpdateDateColumn({ comment: '수정 시간' })
   updatedAt: Date;
 
   @Column({ length: 1, nullable: true, comment: '상태' })
