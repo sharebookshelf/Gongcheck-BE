@@ -23,7 +23,6 @@ export class UploadRepository extends BaseRepository {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-
     await uploadRepository.insert(bookshelf);
 
     return bookshelf;

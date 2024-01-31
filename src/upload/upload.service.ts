@@ -39,7 +39,8 @@ export class UploadService {
 
       let books: Array<CreateBook> = [];
       let bookIds: Array<number> = [];
-      data.forEach(async (file) => {
+
+      for (const file of data) {
         const result = file.result;
         const url = file.file_url;
         books = [];
@@ -52,8 +53,7 @@ export class UploadService {
         );
         console.log(`${createdBookshelf} 성공`);
 
-        // books 저장
-        result.forEach(async (res) => {
+        for (const res of result) {
           const { title, author, publisher, img_url } = res;
           const book: CreateBook = {
             title,
@@ -62,21 +62,20 @@ export class UploadService {
             titleUrl: img_url,
           };
           books.push(book);
-        });
-
-        const createdBook = await this.uploadRepository.createBook(books);
-        console.log(createdBook);
-
-        createdBook.forEach((res) => {
-          bookIds.push(res.bookId);
-        });
+        }
+      }
+      const createdBook = await this.uploadRepository.createBook(books);
+      createdBook.forEach((res) => {
+        bookIds.push(res.bookId);
       });
+      console.log(createdBook);
 
       const createdUserBook = await this.uploadRepository.createUserBook(
         userId,
         bookIds,
       );
       console.log(createdUserBook);
+
       return { createdUserBook };
     } catch (error) {
       // 에러 처리

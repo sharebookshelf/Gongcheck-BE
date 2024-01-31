@@ -1,10 +1,10 @@
-import { Entity, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './user.entity';
 import { Book } from './book.entity';
 
 @Entity()
 export class UserBook {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   userBookId: number;
 
   @ManyToOne(() => User, (user) => user.userBook)
