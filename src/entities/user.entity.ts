@@ -11,7 +11,7 @@ import { UserBook } from './userBook.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  userID: number;
+  userId: number;
 
   @Column({ length: 20, comment: '이용자 닉네임' })
   nickname: string;
@@ -40,6 +40,6 @@ export class User {
   @Column({ length: 1, nullable: true, comment: '상태' })
   status?: string;
 
-  @OneToMany(() => UserBook, (userBook) => userBook.book)
+  @OneToMany(() => UserBook, (userBook) => userBook.userId)
   userBook: UserBook[];
 }

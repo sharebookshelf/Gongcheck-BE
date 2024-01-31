@@ -14,9 +14,6 @@ export class Bookshelf {
   @PrimaryColumn({ length: 255, comment: '이미지 경로' })
   bookShelfImage: string;
 
-  @Column()
-  userID: number;
-
   @CreateDateColumn({ comment: '생성 시간' })
   createdAt: Date;
 
@@ -26,7 +23,7 @@ export class Bookshelf {
   @Column({ length: 1, nullable: true, comment: '상태' })
   status?: string;
 
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'userID' })
-  user: User;
+  @ManyToOne(() => User, (user) => user.userId)
+  @JoinColumn({ name: 'userId' })
+  userId: number;
 }

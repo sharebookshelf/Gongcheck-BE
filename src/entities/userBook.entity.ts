@@ -9,9 +9,9 @@ export class UserBook {
 
   @ManyToOne(() => User, (user) => user.userBook)
   @JoinColumn({ name: 'userId' })
-  user: User;
+  userId: number;
 
   @ManyToOne(() => Book, (book) => book.userBook)
   @JoinColumn({ name: 'bookId' })
-  book: Book;
+  bookId: number;
 }

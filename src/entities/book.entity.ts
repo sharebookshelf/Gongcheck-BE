@@ -14,7 +14,7 @@ import { UserBook } from './userBook.entity';
 @Index('book_index', ['title', 'author', 'publisher'], { fulltext: true })
 export class Book {
   @PrimaryGeneratedColumn({ comment: '책 ID' })
-  bookID: number;
+  bookId: number;
 
   @Column({ length: 255, comment: '책 제목' })
   title: string;
@@ -55,6 +55,6 @@ export class Book {
   @Column({ length: 1, nullable: true, comment: '상태' })
   status?: string;
 
-  @OneToMany(() => UserBook, (userBook) => userBook.book)
+  @OneToMany(() => UserBook, (userBook) => userBook.bookId)
   userBook: UserBook[];
 }

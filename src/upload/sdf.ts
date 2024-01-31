@@ -37,20 +37,18 @@ export class UploadService {
 
       const userId: number = 1;
 
-      let books: Array<CreateBook> = [];
-      let bookIds: Array<number> = [];
       data.forEach(async (file) => {
         const result = file.result;
         const url = file.file_url;
-        books = [];
-        bookIds = [];
+        const books: Array<CreateBook> = [];
+        const bookIds: Array<number> = [];
 
         // bookshelf 하나 저장
         const createdBookshelf = await this.uploadRepository.createBookshelf(
           url,
           userId,
         );
-        console.log(`${createdBookshelf} 성공`);
+        console.log(createdBookshelf);
 
         // books 저장
         result.forEach(async (res) => {
@@ -66,21 +64,15 @@ export class UploadService {
 
         const createdBook = await this.uploadRepository.createBook(books);
         console.log(createdBook);
-
-        createdBook.forEach((res) => {
-          bookIds.push(res.bookId);
-        });
       });
-
-      const createdUserBook = await this.uploadRepository.createUserBook(
-        userId,
-        bookIds,
-      );
-      console.log(createdUserBook);
-      return { createdUserBook };
     } catch (error) {
       // 에러 처리
       throw error;
     }
   }
 }
+
+// const createdUserBook = await this.uploadRepository.createUserBook(
+//   userId,
+//   createdBook.id,
+// );
