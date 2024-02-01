@@ -1,4 +1,11 @@
-import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Headers,
+  ParseIntPipe,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { FormDataRequest } from 'nestjs-form-data';
 import { UploadDto } from './dto/upload.dto';
@@ -11,7 +18,10 @@ export class UploadController {
   @Post()
   @UseInterceptors(TransactionInterceptor)
   @FormDataRequest()
-  fetchAiData(@Body() uploadDto: UploadDto) {
-    return this.uploadService.sendFile(uploadDto);
+  fetchAiData(
+    @Headers('user-id') userId: string,
+    @Body() uploadDto: UploadDto,
+  ) {
+    return this.uploadService.sendFile(parseInt(userId), uploadDto);
   }
 }

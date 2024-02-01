@@ -6,7 +6,7 @@ import { Bookshelf } from 'src/entities/bookshelf.entity';
 import { UserBook } from './../entities/userBook.entity';
 import { Book } from 'src/entities/book.entity';
 import { REQUEST } from '@nestjs/core';
-import { CreateBook } from './interface/creatBook';
+import { CreateBook } from './interface/createBook';
 
 @Injectable({ scope: Scope.REQUEST })
 export class UploadRepository extends BaseRepository {
@@ -31,24 +31,40 @@ export class UploadRepository extends BaseRepository {
   async createBook(books: Array<CreateBook>) {
     const uploadRepository = this.getRepository(Book);
 
-    const newBooks = books.map((book) => {
-      return uploadRepository.create({
-        title: book.title,
-        author: book.author,
-        publisher: book.publisher,
-        titleUrl: book.titleUrl,
-        eaAddCode: '',
-        eaIsbn: '',
-        setIsbn: '',
-        setAddCode: '',
-        prePrice: '',
-        inputDate: '',
-        createdAt: new Date(),
-        updatedAt: new Date(),
+    const newBooks = [];
+    let existingBook;
+    for (const book of books) {
+      existingBook = await uploadRepository.findOne({
+        where: {
+          title: book.title,
+          author: book.author,
+          publisher: book.publisher,
+        },
       });
-    });
-
-    return await uploadRepository.save(newBooks);
+      if (!existingBook) {
+        const newBook = uploadRepository.create({
+          title: book.title,
+          author: book.author,
+          publisher: book.publisher,
+          titleUrl: book.titleUrl,
+          eaAddCode: '',
+          eaIsbn: '',
+          setIsbn: '',
+          setAddCode: '',
+          prePrice: '',
+          inputDate: '',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+        newBooks.push(newBook);
+      }
+    }
+    if (newBooks.length > 0) {
+      console.log(`${newBooks.length}개 책 저장!`);
+      return await uploadRepository.save(newBooks);
+    } else {
+      return [];
+    }
   }
 
   async createUserBook(userId: number, bookIds: number[]) {

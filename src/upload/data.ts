@@ -52,7 +52,7 @@ export const data = [
       },
     ],
     file_url:
-      'runs/20240131/ae86714c-1418-4e88-b34f-4ab30e18da88_bookshelf1.jpg/ae86714c-1418-4e88-b34f-4ab30e18da88_bookshelf1.jpg',
+      'runs/20240131/ae86714c-1418-4e8w8-b34f2-42abd30e18da88_bookshelf1.jpg/ae86714c-1418-4e88-b34f-4ab30e18da88_bookshelf1.jpg',
   },
   {
     result: [
@@ -83,7 +83,7 @@ export const data = [
       },
       {
         ocr_text: '회계원리김권중지음창민사',
-        title: '(New) 회계원리 해답 ',
+        title: '(New) 회계원리 해답 2',
         author: '김권중 지음',
         publisher: '창민사',
         img_url: '',
@@ -107,6 +107,6 @@ export const data = [
       },
     ],
     file_url:
-      'runs/20240131/a37784ec-43ab-4ed1-8059-72400f287d17_bookshelf1.jpg/a37784ec-43ab-4ed1-8059-72400f287d17_bookshelf1.jpg',
+      'runs/20240131/a37784ec-43ab-4ed1-8059w-7240d20f2287d17_bookshelf1.jpg/a37784ec-43ab-4ed1-8059-72400f287d17_bookshelf1.jpg',
   },
 ];
