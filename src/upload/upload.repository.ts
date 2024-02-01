@@ -32,6 +32,7 @@ export class UploadRepository extends BaseRepository {
     const uploadRepository = this.getRepository(Book);
 
     const newBooks = [];
+    const bookIds = [];
     let existingBook;
     for (const book of books) {
       existingBook = await uploadRepository.findOne({
@@ -57,13 +58,16 @@ export class UploadRepository extends BaseRepository {
           updatedAt: new Date(),
         });
         newBooks.push(newBook);
+      } else {
+        bookIds.push(existingBook.bookId);
       }
     }
     if (newBooks.length > 0) {
       console.log(`${newBooks.length}개 책 저장!`);
-      return await uploadRepository.save(newBooks);
+      const createdBook = await uploadRepository.save(newBooks);
+      return { createdBook, existingBookIds: bookIds };
     } else {
-      return [];
+      return { createdBook: [], existingBookIds: bookIds };
     }
   }
 

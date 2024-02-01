@@ -64,9 +64,13 @@ export class UploadService {
           books.push(book);
         }
       }
-      const createdBook = await this.uploadRepository.createBook(books);
+      const { createdBook, existingBookIds } =
+        await this.uploadRepository.createBook(books);
       createdBook.forEach((res) => {
         bookIds.push(res.bookId);
+      });
+      existingBookIds.forEach((res) => {
+        bookIds.push(res);
       });
 
       const createdUserBook = await this.uploadRepository.createUserBook(
