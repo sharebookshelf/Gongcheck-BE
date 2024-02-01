@@ -1,4 +1,4 @@
-import { data } from './data';
+// import { data } from './data';
 import { Injectable } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
 import * as FormData from 'form-data';
@@ -22,18 +22,20 @@ export class UploadService {
 
     // TODO: API URL .env로 설정
     // Axios POST 요청
-    // const endpoint = 'http://gongcheck.p-e.kr:8000/process_multi';
+    const endpoint = 'http://gongcheck.p-e.kr:8000/process_multi';
+
     try {
-      // const response: AxiosResponse = await axios.post(endpoint, formData, {
-      //   headers: {
-      //     // FormData 인스턴스의 getHeaders 메서드를 사용하여 적절한 Content-Type 설정
-      //     ...formData.getHeaders(),
-      //   },
-      // });
+      const response: AxiosResponse = await axios.post(endpoint, formData, {
+        headers: {
+          // FormData 인스턴스의 getHeaders 메서드를 사용하여 적절한 Content-Type 설정
+          ...formData.getHeaders(),
+        },
+      });
       // response.data.forEach((file) => {
       //   console.log(file);
       // });
-      // data[0] -> 응답 하나
+
+      const data = response.data;
 
       const userId: number = 1;
 
