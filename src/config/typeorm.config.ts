@@ -19,5 +19,8 @@ export const TypeOrmConfig: TypeOrmModuleAsyncOptions = {
     logging: true,
     entities: [Book, Bookshelf, User, UserBook],
     migrations: [__dirname + '/src/database/migrations/*.ts'],
+    cli: {
+      migrationsDir: 'src/database/migrations', // migration 파일을 생성할 디렉토리
+    },
   }),
 };
