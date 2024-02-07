@@ -34,9 +34,6 @@ export class Book {
   @Column({ nullable: true, length: 20, comment: 'ISBN' })
   eaIsbn: string;
 
-  @Column({ nullable: true, length: 20, comment: 'ISBN' })
-  dfdfdf: string;
-
   @Column({ nullable: true, length: 20, comment: '세트 ISBN' })
   setIsbn: string;
 
