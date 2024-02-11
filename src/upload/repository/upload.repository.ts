@@ -3,10 +3,11 @@ import { Request } from 'express';
 import { BaseRepository } from 'src/common/base-repository';
 import { DataSource } from 'typeorm';
 import { Bookshelf } from 'src/entities/bookshelf.entity';
-import { UserBook } from './../entities/userBook.entity';
+import { UserBook } from '../../entities/userBook.entity';
 import { Book } from 'src/entities/book.entity';
 import { REQUEST } from '@nestjs/core';
-import { CreateBook } from './interface/createBook';
+import { CreateBook, UserInfo } from '../interface/createBook';
+import { User } from 'src/entities/user.entity';
 
 @Injectable({ scope: Scope.REQUEST })
 export class UploadRepository extends BaseRepository {
@@ -84,5 +85,21 @@ export class UploadRepository extends BaseRepository {
     await uploadRepository.insert(newUserBook);
 
     return newUserBook;
+  }
+
+  async createUser(userInfo: UserInfo) {
+    const uploadRepository = this.getRepository(User);
+
+    const newUser = uploadRepository.create({
+      nickname: userInfo.nickname,
+      gender: userInfo.gender,
+      birth: userInfo.birth,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    const insertUserInfo = await uploadRepository.insert(newUser);
+
+    return insertUserInfo;
   }
 }
