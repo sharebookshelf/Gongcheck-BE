@@ -7,3 +7,9 @@ export interface CreateBook {
   // eaIsbn: string | '';
   // setIsbn: string | '';
 }
+
+export interface UserInfo {
+  nickname: string;
+  birth: string;
+  gender: string;
+}
