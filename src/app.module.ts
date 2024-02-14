@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmConfig } from './config/typeorm.config';
 import { UploadModule } from './upload/upload.module';
 import { NestjsFormDataModule } from 'nestjs-form-data';
+import { SurveyModule } from './survey/survey.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
     TypeOrmModule.forRootAsync(TypeOrmConfig),
     NestjsFormDataModule,
     UploadModule,
+    SurveyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

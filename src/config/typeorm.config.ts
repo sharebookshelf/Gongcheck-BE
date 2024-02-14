@@ -4,6 +4,7 @@ import { Book } from '../entities/book.entity';
 import { Bookshelf } from '../entities/bookshelf.entity';
 import { User } from '../entities/user.entity';
 import { UserBook } from '../entities/userBook.entity';
+import { Survey } from 'src/entities/survey.entity';
 
 export const TypeOrmConfig: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule],
@@ -17,7 +18,7 @@ export const TypeOrmConfig: TypeOrmModuleAsyncOptions = {
     database: configService.get('DB_NAME'),
     synchronize: true,
     logging: true,
-    entities: [Book, Bookshelf, User, UserBook],
+    entities: [Book, Bookshelf, User, UserBook, Survey],
     migrations: [__dirname + '/src/database/migrations/*.ts'],
     cli: {
       migrationsDir: 'src/database/migrations', // migration 파일을 생성할 디렉토리
