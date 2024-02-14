@@ -7,6 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { UserBook } from './userBook.entity';
+import { Survey } from './survey.entity';
 
 @Entity()
 export class User {
@@ -42,4 +43,7 @@ export class User {
 
   @OneToMany(() => UserBook, (userBook) => userBook.userId)
   userBook: UserBook[];
+
+  @OneToMany(() => Survey, (survey) => survey.userId)
+  survey: Survey[];
 }
