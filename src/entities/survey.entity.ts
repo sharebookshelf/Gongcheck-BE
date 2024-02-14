@@ -39,5 +39,5 @@ export class Survey {
 
   @ManyToOne(() => User, (user) => user.survey)
   @JoinColumn({ name: 'userId' })
-  userId: User;
+  userId: number;
 }

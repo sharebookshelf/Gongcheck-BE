@@ -8,8 +8,9 @@ export class SurveyController {
   constructor(private readonly surveyService: SurveyService) {}
 
   @Post()
-  create(@Body() surveyDto: SurveyDto, @Headers('user-id') userId: User) {
-    surveyDto.userId = userId;
+  create(@Body() surveyDto: SurveyDto, @Headers('user-id') userId: string) {
+    surveyDto.userId = parseInt(userId);
+
     return this.surveyService.create(surveyDto);
   }
 }

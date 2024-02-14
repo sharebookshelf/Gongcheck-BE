@@ -1,8 +1,6 @@
 import { IsDefined } from 'class-validator';
 import { User } from 'src/entities/user.entity';
 export class SurveyDto {
-  id: number;
-
   @IsDefined()
   question1: number;
 
@@ -12,11 +10,5 @@ export class SurveyDto {
   @IsDefined()
   question3: number;
 
-  @IsDefined()
-  status: string;
-
-  createdAt: Date;
-  updatedAt: Date;
-
-  userId: User;
+  userId: number;
 }
