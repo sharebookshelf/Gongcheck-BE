@@ -1,6 +1,6 @@
-// import { data } from './data';
+import { data } from '../data';
 import { Injectable } from '@nestjs/common';
-import axios, { AxiosResponse } from 'axios';
+// import axios, { AxiosResponse } from 'axios';
 import * as FormData from 'form-data';
 import { UploadDto } from '../dto/upload.dto';
 import { UploadRepository } from '../repository/upload.repository';
@@ -14,30 +14,33 @@ export class UploadService {
     private readonly configService: ConfigService,
   ) {}
   async sendFile(uploadDto: UploadDto): Promise<any> {
-    // console.log(uploadDto.files);
+    const files = uploadDto.files;
+
     // 파일들을 FormData에 추가
     const formData = new FormData();
-    const files = uploadDto.files;
-    const apiUrl = this.configService.get('API_HOST');
+    files.forEach((file) => {
+      formData.append('files', file.buffer, file.originalName);
+    });
+    // const apiUrl = this.configService.get('API_HOST');
     const userInfo: UserInfo = {
       nickname: uploadDto.nickname,
       birth: uploadDto.birth,
       gender: uploadDto.gender,
     };
-
+    console.log(files);
     files.forEach((file) => {
       formData.append('files', file.buffer, file.originalName);
     });
 
     try {
       // Axios POST 요청
-      const response: AxiosResponse = await axios.post(apiUrl, formData, {
-        headers: {
-          // FormData 인스턴스의 getHeaders 메서드를 사용하여 적절한 Content-Type 설정
-          ...formData.getHeaders(),
-        },
-      });
-      const data = response.data;
+      // const response: AxiosResponse = await axios.post(apiUrl, formData, {
+      //   headers: {
+      //     // FormData 인스턴스의 getHeaders 메서드를 사용하여 적절한 Content-Type 설정
+      //     ...formData.getHeaders(),
+      //   },
+      // });
+      // const data = response.data;
 
       const insertUserInfo = await this.uploadRepository.createUser(userInfo);
 
