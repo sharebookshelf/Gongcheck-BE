@@ -41,17 +41,20 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.1",
     "axios": "^1.6.7",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "dotenv": "^16.4.0",
     "express-session": "^1.18.0",
     "form-data": "^4.0.0",
     "jest-mock": "^29.7.0",
     "mysql2": "^3.7.1",
+    "nest-winston": "^1.9.4",
     "nestjs-form-data": "^1.9.5",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.19",
-    "typeorm-extension": "^3.4.0"
+    "typeorm-extension": "^3.4.0",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
