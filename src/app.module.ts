@@ -9,6 +9,7 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
 import { LoggerModule } from './logger/logger.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './logger/logging.interceptor';
+import { SurveyModule } from './survey/survey.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { LoggingInterceptor } from './logger/logging.interceptor';
     NestjsFormDataModule.config({ isGlobal: true }),
     UploadModule,
     LoggerModule,
+    SurveyModule,
   ],
   controllers: [AppController],
   providers: [
