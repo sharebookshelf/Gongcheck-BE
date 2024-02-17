@@ -6,6 +6,9 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmConfig } from './config/typeorm.config';
 import { UploadModule } from './upload/upload.module';
 import { NestjsFormDataModule } from 'nestjs-form-data';
+import { LoggerModule } from './logger/logger.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { LoggingInterceptor } from './logger/logging.interceptor';
 
 @Module({
   imports: [
@@ -13,10 +16,17 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync(TypeOrmConfig),
-    NestjsFormDataModule,
+    NestjsFormDataModule.config({ isGlobal: true }),
     UploadModule,
+    LoggerModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+  ],
 })
 export class AppModule {}
