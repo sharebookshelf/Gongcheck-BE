@@ -1,10 +1,23 @@
 import { IsDefined } from 'class-validator';
-import { MemoryStoredFile, HasMimeType, MaxFileSize } from 'nestjs-form-data';
+import {
+  MemoryStoredFile,
+  HasMimeType,
+  IsFiles,
+  MaxFileSize,
+} from 'nestjs-form-data';
 
-// TODO: File 사이즈가 너무 큰 경우 validation 에러 발생
 export class UploadDto {
-  @MaxFileSize(1e6)
-  @HasMimeType(['image/jpeg', 'image/jpg', 'image/png'])
+  @IsFiles({ each: true })
+  @MaxFileSize(1e7, {
+    each: true,
+    message: '파일의 최대 사이즈는 10MB입니다',
+  })
+  @HasMimeType(['image/png', 'image/jpeg', 'image/jpg'], {
+    each: true,
+    message: (e) => {
+      return `error: ${e.constraints}`;
+    },
+  })
   files: MemoryStoredFile[];
 
   @IsDefined()
