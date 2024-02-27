@@ -3,7 +3,7 @@ import { Request } from 'express';
 import { BaseRepository } from 'src/common/base-repository';
 import { DataSource } from 'typeorm';
 import { Bookshelf } from 'src/entities/bookshelf.entity';
-import { UserBook } from '../../entities/userBook.entity';
+import { UserBook } from '../../../entities/userBook.entity';
 import { Book } from 'src/entities/book.entity';
 import { REQUEST } from '@nestjs/core';
 import { CreateBook, UserInfo } from '../interface/createBook';
