@@ -82,12 +82,9 @@ export class UploadService {
         bookIds.push(res);
       });
 
-      const createdUserBook = await this.uploadRepository.createUserBook(
-        userId,
-        bookIds,
-      );
+      await this.uploadRepository.createUserBook(userId, bookIds);
 
-      return { createdUserBook };
+      return userId;
     } catch (error) {
       throw error;
     }
