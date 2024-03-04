@@ -1,30 +1,25 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  ParseIntPipe,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { Book } from 'src/entities/book.entity';
 import { BookService } from './book.service';
 import { CategorizeBookDto } from './dto/categorizeBook.dto';
+import { Request } from 'express';
 
 @Controller('book')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
-  @Get(':id')
-  getUserBooksByUserId(@Param('id', ParseIntPipe) id: number): Promise<Book[]> {
-    console.log(id);
+  @Get()
+  getUserBooksByUserIds(@Req() request: Request): Promise<Book[]> {
+    const id = request.cookies['userId'];
     return this.bookService.findBooksByUserId(id);
   }
 
-  @Post(':id')
-  categorizeBook(
+  @Post()
+  categorizeBooks(
     @Body() categrozieBookDtos: CategorizeBookDto[],
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<Book[]> {
+    @Req() request: Request,
+  ): Promise<any> {
+    const id = request.cookies['userId'];
     return this.bookService.categorizeBook(categrozieBookDtos, id);
   }
 }
