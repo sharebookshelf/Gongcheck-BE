@@ -4,12 +4,14 @@ import {
   Controller,
   Logger,
   Post,
+  Res,
   UseInterceptors,
 } from '@nestjs/common';
 import { UploadService } from '../service/upload.service';
 import { FormDataRequest } from 'nestjs-form-data';
 import { UploadDto } from '../dto/upload.dto';
 import { TransactionInterceptor } from 'src/common/transaction.interceptor';
+import { Response } from 'express';
 
 @Controller('upload')
 export class UploadController {
@@ -18,9 +20,14 @@ export class UploadController {
   @Post()
   @UseInterceptors(TransactionInterceptor)
   @FormDataRequest()
-  fetchAiData(@Body() uploadDto: UploadDto) {
+  async fetchAiData(
+    @Body() uploadDto: UploadDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
     const { files, ...userInfo } = uploadDto;
     this.logger.debug(`userInfo: `, JSON.stringify(userInfo));
-    return this.uploadService.sendFile(uploadDto);
+    const userId = await this.uploadService.sendFile(uploadDto);
+    response.cookie('userId', userId);
+    return { message: 'success' };
   }
 }
