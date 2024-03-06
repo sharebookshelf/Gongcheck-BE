@@ -31,10 +31,10 @@ export class Survey {
   })
   status: string;
 
-  @CreateDateColumn({ comment: 'Record creation time' })
+  @CreateDateColumn({ nullable: true, comment: 'Record creation time' })
   createdAt: Date;
 
-  @UpdateDateColumn({ comment: 'Record last update time' })
+  @UpdateDateColumn({ nullable: true, comment: 'Record last update time' })
   updatedAt: Date;
 
   @ManyToOne(() => User, (user) => user.survey)

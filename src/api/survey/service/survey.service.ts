@@ -11,12 +11,15 @@ export class SurveyService {
     private readonly surveyRepository: Repository<Survey>,
   ) {}
 
-  async create(surveyDto: SurveyDto) {
-    const newSurvey = this.surveyRepository.create(surveyDto);
+  async create(surveyDto: SurveyDto, userId: number) {
+    const newSurvey = this.surveyRepository.create({
+      ...surveyDto,
+      userId,
+    });
 
     console.log(newSurvey);
 
     await this.surveyRepository.save(newSurvey);
-    return newSurvey;
+    return { message: 'success' };
   }
 }
