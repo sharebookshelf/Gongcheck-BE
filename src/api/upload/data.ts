@@ -52,7 +52,7 @@ export const data = [
       },
     ],
     file_url:
-      'runs/20240131/ae2s8672s2214c2-1224182-4e8w832-b324f2-22s242a2b22d3d0e18da882_2bookshelf1.jpg/ae86714c-1418-4e88-b34f-4ab30e18da88_bookshelf1.jpg',
+      'runs/20240131/ae2s8672s2d214c2-1224182-4e8w832-b324f2-22s242a2b22d3d0e18da882_2bookshelf1.jpg/ae86714c-1418-4e88-b34f-4ab30e18da88_bookshelf1.jpg',
   },
   {
     result: [
@@ -107,6 +107,6 @@ export const data = [
       },
     ],
     file_url:
-      'runs/20240131/a32772284ec-s43222a223b-4ed1-802592w-724220d2222202fd22287d17_bookshelf1.jpg/a37784ec-43ab-4ed1-8059-72400f287d17_bookshelf1.jpg',
+      'runs/20240131/a32772284ec-s43d222a223b-4ed1-802592w-724220d2222202fd22287d17_bookshelf1.jpg/a37784ec-43ab-4ed1-8059-72400f287d17_bookshelf1.jpg',
   },
 ];
