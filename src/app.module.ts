@@ -11,6 +11,8 @@ import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { LoggingInterceptor } from './logger/logging.interceptor';
 import { SurveyModule } from './api/survey/survey.module';
 import { BookModule } from './api/books/book.module';
+import { AnalysisModule } from './api/analysis/analysis.module';
+import { UsersModule } from './api/users/users.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { BookModule } from './api/books/book.module';
     LoggerModule,
     SurveyModule,
     BookModule,
+    AnalysisModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [
