@@ -14,7 +14,7 @@ export class UserBook {
   userBookId: number;
 
   @Column()
-  userId: number; // 명시적으로 컬럼 추가
+  userId: string; // 명시적으로 컬럼 추가
 
   @Column()
   bookId: number; // 명시적으로 컬럼 추가

@@ -10,7 +10,7 @@ export class AnalysisService {
     private userRepository: Repository<User>,
   ) {}
 
-  async getAnalysisResult(userId: number) {
+  async getAnalysisResult(userId: string) {
     const [user] = await this.userRepository.find({
       where: { userId },
     });

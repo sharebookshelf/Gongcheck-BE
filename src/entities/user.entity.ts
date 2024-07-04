@@ -1,18 +1,20 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  PrimaryColumn,
 } from 'typeorm';
 import { UserBook } from './userBook.entity';
 import { Survey } from './survey.entity';
+import { Bookshelf } from './bookshelf.entity';
+// import { UserBookshelf } from './userBookshelf.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  userId: number;
+  @PrimaryColumn()
+  userId: string;
 
   @Column({ length: 20, comment: '이용자 닉네임' })
   nickname: string;
@@ -41,9 +43,12 @@ export class User {
   @Column({ length: 1, nullable: true, comment: '상태' })
   status?: string;
 
-  @OneToMany(() => UserBook, (userBook) => userBook.userId)
+  @OneToMany(() => UserBook, (userBook) => userBook.user)
   userBook: UserBook[];
 
-  @OneToMany(() => Survey, (survey) => survey.userId)
+  @OneToMany(() => Bookshelf, (bookshelf) => bookshelf.user)
+  bookshelf: Bookshelf[];
+
+  @OneToMany(() => Survey, (survey) => survey.user)
   survey: Survey[];
 }

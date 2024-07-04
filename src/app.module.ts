@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmConfig } from './config/typeorm.config';
 import { UploadModule } from './api/upload/upload.module';
-import { NestjsFormDataModule } from 'nestjs-form-data';
+// import { FileSystemStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
 import { LoggerModule } from './logger/logger.module';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { LoggingInterceptor } from './logger/logging.interceptor';
@@ -13,14 +13,29 @@ import { SurveyModule } from './api/survey/survey.module';
 import { BookModule } from './api/books/book.module';
 import { AnalysisModule } from './api/analysis/analysis.module';
 import { UsersModule } from './api/users/users.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+// import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', 'public'),
+      serveStaticOptions: { index: false, redirect: false },
+      renderPath: '/asset',
+    }),
+    // MulterModule.register({
+    //   dest: '../public/asset',
+    // }),
     TypeOrmModule.forRootAsync(TypeOrmConfig),
-    NestjsFormDataModule.config({ isGlobal: true }),
+    // NestjsFormDataModule.config({
+    //   fileSystemStoragePath: join(__dirname, '..', 'public'),
+    //   storage: FileSystemStoredFile,
+    //   isGlobal: true,
+    // }),
     UploadModule,
     LoggerModule,
     SurveyModule,

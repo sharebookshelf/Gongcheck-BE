@@ -14,6 +14,9 @@ export class Survey {
   @PrimaryGeneratedColumn({ comment: '설문PK' })
   id: number;
 
+  @Column({ comment: '유저 아이디' })
+  userId: string;
+
   @Column({ type: 'int', comment: '1번 문항 답변' })
   question1: number;
 
@@ -39,5 +42,5 @@ export class Survey {
 
   @ManyToOne(() => User, (user) => user.survey)
   @JoinColumn({ name: 'userId' })
-  userId: number;
+  user: User;
 }
