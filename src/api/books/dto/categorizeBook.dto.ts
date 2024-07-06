@@ -4,8 +4,8 @@ export class CategorizeBookDto {
   @IsDefined()
   bookId: number;
 
-  @IsDefined()
-  status: string;
+  // @IsDefined()
+  // status: string;
 
   @IsNumber()
   rank?: number;

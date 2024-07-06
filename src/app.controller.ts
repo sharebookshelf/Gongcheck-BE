@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
+import { join } from 'path';
 
 @Controller()
 export class AppController {
@@ -7,6 +8,7 @@ export class AppController {
 
   @Get()
   getHello(): string {
+    console.log(join(__dirname, '..', 'public'));
     return this.appService.getHello();
   }
 }

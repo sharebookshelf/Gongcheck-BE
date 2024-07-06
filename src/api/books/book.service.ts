@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from 'src/entities/book.entity';
 import { UserBook } from 'src/entities/userBook.entity';
-import { EntityNotFoundError, In, Repository } from 'typeorm';
+import { In, Not, Repository } from 'typeorm';
 import { CategorizeBookDto } from './dto/categorizeBook.dto';
 import { User } from 'src/entities/user.entity';
 import { IAnalysisResult } from './interfaces/type';
+import { Bookshelf } from 'src/entities/bookshelf.entity';
 
 @Injectable()
 export class BookService {
@@ -16,9 +17,11 @@ export class BookService {
     private bookRepository: Repository<Book>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(Bookshelf)
+    private bookshelfRepository: Repository<Bookshelf>,
   ) {}
 
-  async findBooksByUserId(userId: number): Promise<any> {
+  async findBooksByUserId(userId: string): Promise<any> {
     const books = await this.userBookRepository.find({
       select: {
         bookId: true,
@@ -37,27 +40,26 @@ export class BookService {
 
   async categorizeBook(
     categorizeBookDtos: CategorizeBookDto[],
-    userId: number,
+    userId: string,
   ): Promise<any> {
-    console.log(categorizeBookDtos);
+    // console.log(categorizeBookDtos);
 
-    await Promise.all(
-      categorizeBookDtos.map(async (update) => {
-        const userBook = await this.userBookRepository.findOne({
-          where: { userId, bookId: update.bookId },
-        });
-        try {
-          userBook.status = update.status;
-          userBook.rank = update.rank;
-          await this.userBookRepository.save(userBook);
-        } catch (e) {
-          throw new EntityNotFoundError(
-            UserBook,
-            '해당 하는 레코드가 없습니다.',
-          );
-        }
-      }),
-    );
+    const userBooks = await this.userBookRepository.find({ where: { userId } });
+
+    for (const userBook of userBooks) {
+      const update = categorizeBookDtos.find(
+        (categorizeBookDtos) => categorizeBookDtos.bookId === userBook.bookId,
+      );
+      if (update) {
+        userBook.status = 'y';
+        userBook.rank = update.rank;
+      } else {
+        userBook.status = 'n';
+      }
+    }
+
+    await this.userBookRepository.save(userBooks);
+
     const { preferredCategory: userReadingType, standardizedScores } =
       await this.anlaysisCategory(userId);
 
@@ -69,12 +71,13 @@ export class BookService {
     return { userReadingType, standardizedScores };
   }
 
-  async anlaysisCategory(userId: number): Promise<IAnalysisResult> {
+  async anlaysisCategory(userId: string): Promise<IAnalysisResult> {
     // TODO: eaAddCode 추가되면 주석 해제하기
     // const books = await this.userBookRepository.find({
     //   relations: ['book'],
     //   where: { userId },
     // });
+
     console.log(userId);
 
     // const refinedBooks = books.map(({ status, rank, book: { eaAddCode } }) => ({
@@ -82,6 +85,7 @@ export class BookService {
     //   rank,
     //   eaAddCode,
     // }));
+    // console.log(refinedBooks);
 
     const READ_BOOK_SCORE = 10;
     const NOT_READ_BOOK_SCORE = 1;
@@ -126,7 +130,7 @@ export class BookService {
       return acc;
     }, {});
 
-    console.log(categoryScores);
+    console.log('categoryScores', categoryScores);
 
     // 표준화를 위해 가장 큰 점수 찾기
     const scores = Object.values(categoryScores) as number[];
@@ -137,7 +141,7 @@ export class BookService {
     Object.keys(categoryScores).forEach((category) => {
       standardizedScores[category] = (categoryScores[category] / maxScore) * 10;
     });
-    console.log(standardizedScores);
+    console.log('standardizedScores', standardizedScores);
 
     // 가장 높은 점수를 가진 카테고리 찾기
     const preferredCategory = Object.keys(standardizedScores).reduce((a, b) =>
@@ -145,5 +149,38 @@ export class BookService {
     );
 
     return { preferredCategory, standardizedScores };
+  }
+
+  async getBookshelf(page: number) {
+    // const bookshelves = await this.bookshelfRepository.find({
+    //   where: {
+    //     status: Not('deleted'),
+    //   },
+    //   relations: ['user'],
+    // });
+
+    // return bookshelves;
+
+    // const userBookshelves = await this.userRepository.find({
+    //   relations: ['bookshelf'],
+    //   where: {
+    //     bookshelf: { status: Not('deleted') },
+    //   },
+    // });
+    // console.log(userBookshelves);
+    // return userBookshelves;
+
+    const take = 5;
+    const skip = (page - 1) * take;
+    const userBookshelves = await this.userRepository.find({
+      relations: ['bookshelf'],
+      where: {
+        bookshelf: { status: Not('deleted') },
+      },
+      take,
+      skip,
+    });
+    console.log(userBookshelves);
+    return userBookshelves;
   }
 }

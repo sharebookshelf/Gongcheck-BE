@@ -12,4 +12,5 @@ export interface UserInfo {
   nickname: string;
   birth: string;
   gender: string;
+  userId: string;
 }

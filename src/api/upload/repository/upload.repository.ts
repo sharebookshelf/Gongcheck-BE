@@ -15,14 +15,14 @@ export class UploadRepository extends BaseRepository {
     super(dataSource, req);
   }
 
-  async createBookshelf(url: string, userId: number) {
+  async createBookshelf(url: string, userId: string) {
     const uploadRepository = this.getRepository(Bookshelf);
 
     const bookshelf = uploadRepository.create({
       bookShelfImage: url,
-      userId,
       createdAt: new Date(),
       updatedAt: new Date(),
+      user: { userId },
     });
     await uploadRepository.insert(bookshelf);
 
@@ -72,7 +72,7 @@ export class UploadRepository extends BaseRepository {
     }
   }
 
-  async createUserBook(userId: number, bookIds: number[]) {
+  async createUserBook(userId: string, bookIds: number[]) {
     const uploadRepository = this.getRepository(UserBook);
 
     const newUserBook = bookIds.map((id) => {
@@ -94,6 +94,7 @@ export class UploadRepository extends BaseRepository {
       nickname: userInfo.nickname,
       gender: userInfo.gender,
       birth: userInfo.birth,
+      userId: userInfo.userId,
       createdAt: new Date(),
       updatedAt: new Date(),
     });

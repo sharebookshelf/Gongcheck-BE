@@ -5,9 +5,10 @@ import { UserBook } from 'src/entities/userBook.entity';
 import { BookService } from './book.service';
 import { BookController } from './book.controller';
 import { User } from 'src/entities/user.entity';
+import { Bookshelf } from 'src/entities/bookshelf.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserBook, Book, User])],
+  imports: [TypeOrmModule.forFeature([UserBook, Book, User, Bookshelf])],
   controllers: [BookController],
   providers: [BookService],
 })

@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 // import { WINSTMiddleware } from './utils/logger.middleware';
 import { HttpStatus, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
+import * as session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,6 +21,14 @@ async function bootstrap() {
       transformOptions: {
         enableImplicitConversion: true,
       },
+    }),
+  );
+  app.use(
+    session({
+      secret: 'gongcheck-secret',
+      resave: false,
+      saveUninitialized: false,
+      cookie: { maxAge: 3600000 },
     }),
   );
   app.use(cookieParser());
