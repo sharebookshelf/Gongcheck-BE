@@ -11,18 +11,18 @@ import { User } from './user.entity';
 import { Post } from './post.entity';
 
 @Entity()
-export class Bookshelf {
-  @PrimaryGeneratedColumn({ comment: '책장 이미지PK ' })
-  id: number;
+export class Like {
+  @PrimaryGeneratedColumn({ comment: '좋아요 PK' })
+  likeId: number;
 
   @Column()
   userId: string; // 명시적으로 컬럼 추가
 
-  @Column({ length: 255, comment: '이미지 경로', nullable: true })
-  bookShelfImage: string;
+  @Column()
+  postId: number; // 명시적으로 컬럼 추가
 
-  // @Column({ length: 20, nullable: true, comment: '비밀번호' })
-  // password?: string;
+  @Column({ type: 'boolean', default: false, comment: '좋아요 여부' })
+  liked: boolean;
 
   @CreateDateColumn({ comment: '생성 시간' })
   createdAt: Date;
@@ -30,14 +30,11 @@ export class Bookshelf {
   @UpdateDateColumn({ comment: '수정 시간' })
   updatedAt: Date;
 
-  @Column({ nullable: true, comment: '상태', default: 'active' })
-  status?: string;
-
-  @ManyToOne(() => User, (user) => user.bookshelves)
+  @ManyToOne(() => User, (user) => user.likes)
   @JoinColumn({ name: 'userId' })
   user: User;
 
-  @ManyToOne(() => Post, (post) => post.bookshelves)
+  @ManyToOne(() => Post, (post) => post.likes)
   @JoinColumn({ name: 'postId' })
   post: Post;
 }

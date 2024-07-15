@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { HttpStatus, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
+import { UserIdNotFoundFilter } from './filters/userIdNotFound.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -23,6 +24,7 @@ async function bootstrap() {
       },
     }),
   );
+  app.useGlobalFilters(new UserIdNotFoundFilter());
   app.use(
     session({
       secret: 'gongcheck-secret',

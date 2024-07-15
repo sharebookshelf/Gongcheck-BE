@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
+import { UserType } from 'src/entities/userType';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -8,6 +9,8 @@ export class AnalysisService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(UserType)
+    private userTypeRepository: Repository<UserType>,
   ) {}
 
   async getAnalysisResult(userId: string) {
@@ -17,5 +20,30 @@ export class AnalysisService {
     const readingType = user.readingType;
 
     return { readingType };
+  }
+
+  async getAnalysisType(userId: string) {
+    const userType = await this.userTypeRepository.findOne({
+      where: { user: { userId } },
+    });
+
+    if (!userType) {
+      throw new Error('User Type not found');
+    }
+
+    const standardizedScores = [
+      Math.round(userType.type0 * 10),
+      Math.round(userType.type1 * 10),
+      Math.round(userType.type2 * 10),
+      Math.round(userType.type3 * 10),
+      Math.round(userType.type4 * 10),
+      Math.round(userType.type5 * 10),
+      Math.round(userType.type6 * 10),
+      Math.round(userType.type7 * 10),
+      Math.round(userType.type8 * 10),
+      Math.round(userType.type9 * 10),
+    ];
+
+    return standardizedScores;
   }
 }
