@@ -4,18 +4,18 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmConfig } from './config/typeorm.config';
-import { UploadModule } from './api/upload/upload.module';
 // import { FileSystemStoredFile, NestjsFormDataModule } from 'nestjs-form-data';
 import { LoggerModule } from './logger/logger.module';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { LoggingInterceptor } from './logger/logging.interceptor';
-import { SurveyModule } from './api/survey/survey.module';
-import { BookModule } from './api/books/book.module';
+import { SurveysModule } from './api/surveys/surveys.module';
 import { AnalysisModule } from './api/analysis/analysis.module';
 import { UsersModule } from './api/users/users.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 // import { MulterModule } from '@nestjs/platform-express';
+import { BookshelvesModule } from './api/bookshelves/bookshelves.module';
+import { BooksModule } from './api/books/books.module';
 
 @Module({
   imports: [
@@ -36,12 +36,12 @@ import { join } from 'path';
     //   storage: FileSystemStoredFile,
     //   isGlobal: true,
     // }),
-    UploadModule,
     LoggerModule,
-    SurveyModule,
-    BookModule,
+    SurveysModule,
+    BooksModule,
     AnalysisModule,
     UsersModule,
+    BookshelvesModule,
   ],
   controllers: [AppController],
   providers: [

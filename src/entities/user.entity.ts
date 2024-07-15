@@ -5,10 +5,14 @@ import {
   UpdateDateColumn,
   OneToMany,
   PrimaryColumn,
+  OneToOne,
 } from 'typeorm';
 import { UserBook } from './userBook.entity';
 import { Survey } from './survey.entity';
 import { Bookshelf } from './bookshelf.entity';
+import { Like } from './like.entity';
+import { Post } from './post.entity';
+import { UserType } from './userType';
 // import { UserBookshelf } from './userBookshelf.entity';
 
 @Entity()
@@ -47,8 +51,17 @@ export class User {
   userBook: UserBook[];
 
   @OneToMany(() => Bookshelf, (bookshelf) => bookshelf.user)
-  bookshelf: Bookshelf[];
+  bookshelves: Bookshelf[];
+
+  @OneToOne(() => Post, (post) => post.user)
+  post: Post;
+
+  @OneToOne(() => UserType, (type) => type.user)
+  type: UserType;
 
   @OneToMany(() => Survey, (survey) => survey.user)
   survey: Survey[];
+
+  @OneToMany(() => Like, (like) => like.user)
+  likes: Like[];
 }
