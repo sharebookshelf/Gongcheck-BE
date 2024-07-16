@@ -7,7 +7,7 @@ import { UserBook } from '../entities/userBook.entity';
 import { Survey } from 'src/entities/survey.entity';
 import { Post } from 'src/entities/post.entity';
 import { Like } from 'src/entities/like.entity';
-import { UserType } from 'src/entities/userType';
+import { UserType } from 'src/entities/userType.entity';
 
 export const TypeOrmConfig: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule],
@@ -20,7 +20,7 @@ export const TypeOrmConfig: TypeOrmModuleAsyncOptions = {
     password: configService.get('DB_PASSWORD'),
     database: configService.get('DB_NAME'),
     synchronize: true,
-    logging: false,
+    logging: true,
     entities: [Book, Bookshelf, User, UserBook, Survey, Post, Like, UserType],
     migrations: [__dirname + '/src/database/migrations/*.ts'],
     cli: {

@@ -12,7 +12,7 @@ import { Survey } from './survey.entity';
 import { Bookshelf } from './bookshelf.entity';
 import { Like } from './like.entity';
 import { Post } from './post.entity';
-import { UserType } from './userType';
+import { UserType } from './userType.entity';
 // import { UserBookshelf } from './userBookshelf.entity';
 
 @Entity()

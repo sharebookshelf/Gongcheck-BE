@@ -12,10 +12,6 @@ export class UserType {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => User, (user) => user.type, { eager: true })
-  @JoinColumn({ name: 'userId' })
-  user: User;
-
   @Column({ type: 'float', default: 0 })
   type0: number;
 
@@ -45,4 +41,8 @@ export class UserType {
 
   @Column({ type: 'float', default: 0 })
   type9: number;
+
+  @OneToOne(() => User, (user) => user.type, { eager: true })
+  @JoinColumn({ name: 'userId' })
+  user: User;
 }

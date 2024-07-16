@@ -6,7 +6,7 @@ import { In, Repository } from 'typeorm';
 import { CategorizeBookDto } from './dto/categorizeBook.dto';
 import { User } from 'src/entities/user.entity';
 import { IAnalysisResult } from './interfaces/type';
-import { UserType } from 'src/entities/userType';
+import { UserType } from 'src/entities/userType.entity';
 
 @Injectable()
 export class BooksService {

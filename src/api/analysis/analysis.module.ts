@@ -3,7 +3,7 @@ import { AnalysisController } from './controller/analysis.controller';
 import { AnalysisService } from './service/analysis.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
-import { UserType } from 'src/entities/userType';
+import { UserType } from 'src/entities/userType.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, UserType])],
