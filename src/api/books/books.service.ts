@@ -76,39 +76,39 @@ export class BooksService {
 
   async anlaysisCategory(userId: string): Promise<any> {
     // TODO: eaAddCode 추가되면 주석 해제하기
-    // const books = await this.userBookRepository.find({
-    //   relations: ['book'],
-    //   where: { userId },
-    // });
+    const books = await this.userBookRepository.find({
+      relations: ['book'],
+      where: { userId },
+    });
 
-    console.log(userId);
+    // console.log(userId);
 
-    // const refinedBooks = books.map(
-    //   ({ status, rank, book: { eaAddCode, setAddCode } }) => ({
-    //     status,
-    //     rank,
-    //     eaAddCode: eaAddCode || setAddCode,
-    //   }),
-    // );
-    // console.log({ refinedBooks });
+    const refinedBooks = books.map(
+      ({ status, rank, book: { eaAddCode, setAddCode } }) => ({
+        status,
+        rank,
+        eaAddCode: eaAddCode || setAddCode,
+      }),
+    );
+    console.log({ refinedBooks });
 
     const READ_BOOK_SCORE = 10;
     const NOT_READ_BOOK_SCORE = 1;
 
-    const refinedBooks = [
-      { status: 'y', rank: 1, eaAddCode: '03890' },
-      { status: 'n', rank: 0, eaAddCode: '93300' },
-      { status: 'y', rank: 2, eaAddCode: '93550' },
-      { status: 'y', rank: 4, eaAddCode: '93690' },
-      { status: 'n', rank: 0, eaAddCode: '93330' },
-      { status: 'y', rank: 3, eaAddCode: '17670' },
-      { status: 'n', rank: 0, eaAddCode: '13710' },
-      { status: 'n', rank: 0, eaAddCode: '03620' },
-      { status: 'n', rank: 0, eaAddCode: '53410' },
-      { status: 'n', rank: 0, eaAddCode: '68740' },
-      { status: 'n', rank: 0, eaAddCode: '53410' },
-      { status: 'n', rank: 0, eaAddCode: '94320' },
-    ];
+    // const refinedBooks = [
+    //   { status: 'y', rank: 1, eaAddCode: '03890' },
+    //   { status: 'n', rank: 0, eaAddCode: '93300' },
+    //   { status: 'y', rank: 2, eaAddCode: '93550' },
+    //   { status: 'y', rank: 4, eaAddCode: '93690' },
+    //   { status: 'n', rank: 0, eaAddCode: '93330' },
+    //   { status: 'y', rank: 3, eaAddCode: '17670' },
+    //   { status: 'n', rank: 0, eaAddCode: '13710' },
+    //   { status: 'n', rank: 0, eaAddCode: '03620' },
+    //   { status: 'n', rank: 0, eaAddCode: '53410' },
+    //   { status: 'n', rank: 0, eaAddCode: '68740' },
+    //   { status: 'n', rank: 0, eaAddCode: '53410' },
+    //   { status: 'n', rank: 0, eaAddCode: '94320' },
+    // ];
 
     // 카테고리별 점수 계산
     const categoryScores = refinedBooks.reduce((acc, item) => {
