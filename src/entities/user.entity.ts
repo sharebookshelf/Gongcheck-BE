@@ -38,6 +38,9 @@ export class User {
   @Column({ type: 'text', nullable: true, comment: '피드백' })
   feedback?: string;
 
+  @Column({ nullable: true, comment: '카테고리 별 책 갯수' })
+  categoryCounts?: string;
+
   @CreateDateColumn({ comment: '생성 시간' })
   createdAt: Date;
 

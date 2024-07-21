@@ -8,6 +8,8 @@ export const data = [
         publisher: '(도서출판)한국세무사회 출판부',
         img_url: '',
         dominant_genre: [],
+        set_add_code: '',
+        ea_add_code: '',
       },
       {
         ocr_text:
@@ -17,6 +19,8 @@ export const data = [
         publisher: '이지스퍼블리싱(주)',
         img_url: 'https://image.yes24.com/goods/116918114/L',
         dominant_genre: [],
+        set_add_code: '',
+        ea_add_code: '',
       },
       {
         ocr_text: '마키타젠지지음문혜원옮김강재헌감수식사가잘못됐습니다23',
@@ -25,6 +29,8 @@ export const data = [
         publisher: 'The Nan :더난콘텐츠(더난콘텐츠그룹)',
         img_url: 'https://image.yes24.com/goods/96364016/L',
         dominant_genre: [],
+        set_add_code: '',
+        ea_add_code: '',
       },
       {
         ocr_text: '회계원리김권중지음창민사',
@@ -33,6 +39,8 @@ export const data = [
         publisher: '창민사',
         img_url: '',
         dominant_genre: [],
+        set_add_code: '',
+        ea_add_code: '',
       },
       {
         ocr_text: '스타트업법률가이드20스타트업법률지원단박영시',
@@ -41,6 +49,8 @@ export const data = [
         publisher: '박영사',
         img_url: 'https://image.yes24.com/goods/93519466/L',
         dominant_genre: [],
+        set_add_code: '',
+        ea_add_code: '',
       },
       {
         ocr_text: '세계경제의성장과위기구조김일식저박영시',
@@ -49,6 +59,8 @@ export const data = [
         publisher: '박영사',
         img_url: '',
         dominant_genre: [],
+        set_add_code: '',
+        ea_add_code: '',
       },
     ],
     file_url:
@@ -63,6 +75,8 @@ export const data = [
         publisher: '(도서출판)한국세무사회 출판부',
         img_url: '',
         dominant_genre: [],
+        set_add_code: '',
+        ea_add_code: '',
       },
       {
         ocr_text:
@@ -72,6 +86,8 @@ export const data = [
         publisher: '이지스퍼블리싱(주)',
         img_url: 'https://image.yes24.com/goods/116918114/L',
         dominant_genre: [],
+        set_add_code: '',
+        ea_add_code: '',
       },
       {
         ocr_text: '마키타젠지지음문혜원옮김강재헌감수식사가잘못됐습니다23',
@@ -80,6 +96,8 @@ export const data = [
         publisher: 'The Nan :더난콘텐츠(더난콘텐츠그룹)',
         img_url: 'https://image.yes24.com/goods/96364016/L',
         dominant_genre: [],
+        set_add_code: '',
+        ea_add_code: '',
       },
       {
         ocr_text: '회계원리김권중지음창민사',
@@ -88,6 +106,8 @@ export const data = [
         publisher: '창민사',
         img_url: '',
         dominant_genre: [],
+        set_add_code: '',
+        ea_add_code: '',
       },
       {
         ocr_text: '스타트업법률가이드20스타트업법률지원단박영시',
@@ -96,6 +116,8 @@ export const data = [
         publisher: '박영사',
         img_url: 'https://image.yes24.com/goods/93519466/L',
         dominant_genre: [],
+        set_add_code: '',
+        ea_add_code: '',
       },
       {
         ocr_text: '세계경제의성장과위기구조김일식저박영시',
@@ -104,6 +126,8 @@ export const data = [
         publisher: '박영사',
         img_url: '',
         dominant_genre: [],
+        set_add_code: '',
+        ea_add_code: '',
       },
     ],
     file_url:

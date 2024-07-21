@@ -5,7 +5,7 @@ import { UserBook } from 'src/entities/userBook.entity';
 import { In, Repository } from 'typeorm';
 import { CategorizeBookDto } from './dto/categorizeBook.dto';
 import { User } from 'src/entities/user.entity';
-import { IAnalysisResult } from './interfaces/type';
+// import { IAnalysisResult } from './interfaces/type';
 import { UserType } from 'src/entities/userType.entity';
 
 @Injectable()
@@ -58,52 +58,57 @@ export class BooksService {
 
     await this.userBookRepository.save(userBooks);
 
-    const { preferredCategory: userReadingType, standardizedScores } =
-      await this.anlaysisCategory(userId);
+    const {
+      preferredCategory: userReadingType,
+      standardizedScores,
+      categoryCounts,
+    } = await this.anlaysisCategory(userId);
+
+    const stringifyCount = JSON.stringify(categoryCounts);
 
     await this.userRepository.update(
       { userId },
-      { readingType: userReadingType },
+      { readingType: userReadingType, categoryCounts: stringifyCount },
     );
 
     return { userReadingType, standardizedScores };
   }
 
-  async anlaysisCategory(userId: string): Promise<IAnalysisResult> {
+  async anlaysisCategory(userId: string): Promise<any> {
     // TODO: eaAddCode 추가되면 주석 해제하기
-    const books = await this.userBookRepository.find({
-      relations: ['book'],
-      where: { userId },
-    });
+    // const books = await this.userBookRepository.find({
+    //   relations: ['book'],
+    //   where: { userId },
+    // });
 
     console.log(userId);
 
-    const refinedBooks = books.map(
-      ({ status, rank, book: { eaAddCode, setAddCode } }) => ({
-        status,
-        rank,
-        eaAddCode: eaAddCode || setAddCode,
-      }),
-    );
-    console.log({ refinedBooks });
+    // const refinedBooks = books.map(
+    //   ({ status, rank, book: { eaAddCode, setAddCode } }) => ({
+    //     status,
+    //     rank,
+    //     eaAddCode: eaAddCode || setAddCode,
+    //   }),
+    // );
+    // console.log({ refinedBooks });
 
     const READ_BOOK_SCORE = 10;
     const NOT_READ_BOOK_SCORE = 1;
 
-    // const refinedBooks = [
-    //   { status: 'y', rank: 1, eaAddCode: '03890' },
-    //   { status: 'n', rank: 0, eaAddCode: '93300' },
-    //   { status: 'y', rank: 2, eaAddCode: '93550' },
-    //   { status: 'y', rank: 4, eaAddCode: '93690' },
-    //   { status: 'n', rank: 0, eaAddCode: '93330' },
-    //   { status: 'y', rank: 3, eaAddCode: '17670' },
-    //   { status: 'n', rank: 0, eaAddCode: '13710' },
-    //   { status: 'n', rank: 0, eaAddCode: '03620' },
-    //   { status: 'n', rank: 0, eaAddCode: '53410' },
-    //   { status: 'n', rank: 0, eaAddCode: '68740' },
-    //   { status: 'n', rank: 0, eaAddCode: '53410' },
-    //   { status: 'n', rank: 0, eaAddCode: '94320' },
-    // ];
+    const refinedBooks = [
+      { status: 'y', rank: 1, eaAddCode: '03890' },
+      { status: 'n', rank: 0, eaAddCode: '93300' },
+      { status: 'y', rank: 2, eaAddCode: '93550' },
+      { status: 'y', rank: 4, eaAddCode: '93690' },
+      { status: 'n', rank: 0, eaAddCode: '93330' },
+      { status: 'y', rank: 3, eaAddCode: '17670' },
+      { status: 'n', rank: 0, eaAddCode: '13710' },
+      { status: 'n', rank: 0, eaAddCode: '03620' },
+      { status: 'n', rank: 0, eaAddCode: '53410' },
+      { status: 'n', rank: 0, eaAddCode: '68740' },
+      { status: 'n', rank: 0, eaAddCode: '53410' },
+      { status: 'n', rank: 0, eaAddCode: '94320' },
+    ];
 
     // 카테고리별 점수 계산
     const categoryScores = refinedBooks.reduce((acc, item) => {
@@ -132,6 +137,20 @@ export class BooksService {
 
     console.log('categoryScores', categoryScores);
 
+    // 카테고리별 갯수 계산
+    const categoryCounts = refinedBooks.reduce((acc, item) => {
+      const category = item.eaAddCode[2]; // 3번째 자리 추출
+
+      if (!acc[category]) {
+        acc[category] = 0;
+      }
+      acc[category] += 1;
+
+      return acc;
+    }, {});
+
+    console.log('categoryCounts', categoryCounts);
+
     // 표준화를 위해 가장 큰 점수 찾기
     const scores = Object.values(categoryScores) as number[];
     const maxScore = Math.max(...scores);
@@ -143,8 +162,13 @@ export class BooksService {
     });
     console.log('standardizedScores', standardizedScores);
 
-    for (let i = 0; i <= 10; i++) {
-      standardizedScores[i] = (standardizedScores[i] ?? 0).toFixed(1);
+    // 결과 배열 초기화 및 채우기
+    const finalScores = new Array(10).fill(0);
+    const finalCounts = new Array(10).fill(0);
+
+    for (let i = 0; i <= 9; i++) {
+      finalScores[i] = (standardizedScores[i] ?? 0).toFixed(1);
+      finalCounts[i] = categoryCounts[i] ?? 0;
     }
 
     // 가장 높은 점수를 가진 카테고리 찾기
@@ -155,22 +179,27 @@ export class BooksService {
     // 사용자 성향 저장
     const userPreference = {
       user: await this.userRepository.findOne({ where: { userId } }),
-      type0: standardizedScores[0],
-      type1: standardizedScores[1],
-      type2: standardizedScores[2],
-      type3: standardizedScores[3],
-      type4: standardizedScores[4],
-      type5: standardizedScores[5],
-      type6: standardizedScores[6],
-      type7: standardizedScores[7],
-      type8: standardizedScores[8],
-      type9: standardizedScores[9],
-      type10: standardizedScores[10],
+      type0: finalScores[0],
+      type1: finalScores[1],
+      type2: finalScores[2],
+      type3: finalScores[3],
+      type4: finalScores[4],
+      type5: finalScores[5],
+      type6: finalScores[6],
+      type7: finalScores[7],
+      type8: finalScores[8],
+      type9: finalScores[9],
     };
 
     this.userTypeRepository.create(userPreference);
     await this.userTypeRepository.save(userPreference);
 
-    return { preferredCategory, standardizedScores };
+    console.log(preferredCategory, standardizedScores, finalCounts);
+
+    return {
+      preferredCategory,
+      standardizedScores,
+      categoryCounts: finalCounts,
+    };
   }
 }

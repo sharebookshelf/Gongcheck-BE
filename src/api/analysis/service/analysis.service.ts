@@ -18,8 +18,9 @@ export class AnalysisService {
       where: { userId },
     });
     const readingType = user.readingType;
+    const categoryCounts = JSON.parse(user.categoryCounts);
 
-    return { readingType };
+    return { readingType, categoryCounts };
   }
 
   async getAnalysisType(userId: string) {

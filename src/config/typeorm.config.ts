@@ -20,7 +20,7 @@ export const TypeOrmConfig: TypeOrmModuleAsyncOptions = {
     password: configService.get('DB_PASSWORD'),
     database: configService.get('DB_NAME'),
     synchronize: true,
-    logging: true,
+    logging: false,
     entities: [Book, Bookshelf, User, UserBook, Survey, Post, Like, UserType],
     migrations: [__dirname + '/src/database/migrations/*.ts'],
     cli: {
