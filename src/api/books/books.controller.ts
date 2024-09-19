@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Patch, Res, Session } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Session } from '@nestjs/common';
 import { Book } from 'src/entities/book.entity';
 import { CategorizeBookDto } from './dto/categorizeBook.dto';
-import { Response } from 'express';
 import { BooksService } from './books.service';
 import { UserIdNotFoundException } from 'src/exceptions/userIdNotFound.exception';
 
@@ -25,7 +24,6 @@ export class BooksController {
   async categorizeBooks(
     @Body() categrozieBookDtos: CategorizeBookDto[],
     @Session() session: Record<string, any>,
-    @Res({ passthrough: true }) response: Response,
   ): Promise<any> {
     const userId = session.userId;
     if (!userId) {
@@ -37,7 +35,7 @@ export class BooksController {
       userId,
     );
 
-    response.cookie('readingType', data.userReadingType);
+    // response.cookie('readingType', data.userReadingType);
     return { data };
   }
 }

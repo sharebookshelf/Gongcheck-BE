@@ -16,6 +16,7 @@ import { join } from 'path';
 // import { MulterModule } from '@nestjs/platform-express';
 import { BookshelvesModule } from './api/bookshelves/bookshelves.module';
 import { BooksModule } from './api/books/books.module';
+import { FleaModule } from './api/flea/flea.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { BooksModule } from './api/books/books.module';
     AnalysisModule,
     UsersModule,
     BookshelvesModule,
+    FleaModule,
   ],
   controllers: [AppController],
   providers: [
