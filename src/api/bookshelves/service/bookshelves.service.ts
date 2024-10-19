@@ -62,8 +62,6 @@ export class BookshelvesService {
         .map((filename) => kes_data[filename])
         .filter((item) => item !== undefined);
 
-      console.log(data);
-
       await this.bookshelvesRepository.createUser(userInfo);
 
       // const userId: number = insertUserInfo.generatedMaps[0].userId;
@@ -89,18 +87,18 @@ export class BookshelvesService {
             title,
             author,
             publisher,
-            img_url,
+            // img_url,
             ea_add_code,
             set_add_code,
             ea_isbn,
             set_isbn,
           } = res;
+
           const book: CreateBook = {
             title,
             author,
             publisher,
-            titleUrl: img_url,
-            // TODO: AI 서버 수정 이후 추가할 데이터
+            titleUrl: '',
             eaAddCode: ea_add_code,
             setAddCode: set_add_code,
             eaIsbn: ea_isbn,
