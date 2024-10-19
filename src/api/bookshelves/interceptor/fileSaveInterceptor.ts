@@ -15,6 +15,7 @@ export class FileSaveInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
     const files = request.files as Express.Multer.File[];
     const filepaths = [];
+    const filenames = [];
     const publicDir = path.join(process.cwd(), 'public', 'asset');
 
     console.log(files);
@@ -26,9 +27,12 @@ export class FileSaveInterceptor implements NestInterceptor {
       const absoluteFilePath = path.join(publicDir, filename); // 파일을 저장시킬 절대 경로
       const savefilepath = path.join(`/asset/${filename}`); // DB에 저장할 경로
       fs.writeFileSync(absoluteFilePath, file.buffer);
+      console.log(file.originalname);
       filepaths.push(savefilepath);
+      filenames.push(file.originalname);
     });
 
+    request.filenames = filenames;
     request.filepaths = filepaths;
 
     return next.handle();

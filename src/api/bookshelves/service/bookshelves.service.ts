@@ -11,8 +11,9 @@ import { Not, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from 'src/entities/post.entity';
 import { Like } from 'src/entities/like.entity';
-import axios, { AxiosResponse } from 'axios';
+// import axios, { AxiosResponse } from 'axios';
 import { ConfigService } from '@nestjs/config';
+import { kes_data } from '../kes_data';
 
 @Injectable()
 export class BookshelvesService {
@@ -30,8 +31,9 @@ export class BookshelvesService {
     userId: string,
     files: Array<Express.Multer.File>,
     filepaths: string[],
+    filenames: string[],
   ): Promise<any> {
-    console.log(files);
+    // console.log(files);
     const formData = new FormData();
     files.forEach((file) => {
       const blob = new Blob([file.buffer]);
@@ -39,7 +41,7 @@ export class BookshelvesService {
       // formData.append('files', file.buffer, file.originalname);
     });
 
-    const apiUrl = this.configService.get('API_HOST');
+    // const apiUrl = this.configService.get('API_HOST');
     const userInfo: UserInfo = {
       nickname: createBookshelfDto.nickname,
       birth: createBookshelfDto.birth,
@@ -50,12 +52,17 @@ export class BookshelvesService {
 
     try {
       // Axios POST 요청
-      const response: AxiosResponse = await axios.post(apiUrl, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      const data = response.data;
+      // const response: AxiosResponse = await axios.post(apiUrl, formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      // });
+      // const data = response.data;
+      const data = filenames
+        .map((filename) => kes_data[filename])
+        .filter((item) => item !== undefined);
+
+      console.log(data);
 
       await this.bookshelvesRepository.createUser(userInfo);
 
@@ -66,18 +73,18 @@ export class BookshelvesService {
 
       let i = 0;
       for (const file of data) {
-        const result = file.result;
+        // const result = file;
         // const url = file.file_url;
         const url = filepaths[i];
         // console.log(url);
         books = [];
         bookIds = [];
+        console.log(file.length);
 
-        console.log('-------', url);
         // 하나의 bookshelf 저장
         await this.bookshelvesRepository.createBookshelf(url, userId);
 
-        for (const res of result) {
+        for (const res of file) {
           const {
             title,
             author,
@@ -85,6 +92,8 @@ export class BookshelvesService {
             img_url,
             ea_add_code,
             set_add_code,
+            ea_isbn,
+            set_isbn,
           } = res;
           const book: CreateBook = {
             title,
@@ -94,24 +103,23 @@ export class BookshelvesService {
             // TODO: AI 서버 수정 이후 추가할 데이터
             eaAddCode: ea_add_code,
             setAddCode: set_add_code,
-            eaIsbn: '',
-            setIsbn: '',
+            eaIsbn: ea_isbn,
+            setIsbn: set_isbn,
           };
           books.push(book);
         }
         i += 1;
+        const { createdBook, existingBookIds } =
+          await this.bookshelvesRepository.createBook(books);
+        createdBook.forEach((res) => {
+          bookIds.push(res.bookId);
+        });
+        existingBookIds.forEach((res) => {
+          bookIds.push(res);
+        });
+
+        await this.bookshelvesRepository.createUserBook(userId, bookIds);
       }
-
-      const { createdBook, existingBookIds } =
-        await this.bookshelvesRepository.createBook(books);
-      createdBook.forEach((res) => {
-        bookIds.push(res.bookId);
-      });
-      existingBookIds.forEach((res) => {
-        bookIds.push(res);
-      });
-
-      await this.bookshelvesRepository.createUserBook(userId, bookIds);
 
       return userId;
     } catch (error) {

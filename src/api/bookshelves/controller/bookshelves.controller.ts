@@ -39,7 +39,8 @@ export class BookshelvesController {
     @Req() request: Request,
   ) {
     const filepaths = request['filepaths'];
-    console.log(filepaths);
+    const filenames = request['filenames'];
+
     const userId = uuidv4();
     session.userId = userId;
 
@@ -48,6 +49,7 @@ export class BookshelvesController {
       userId,
       files,
       filepaths,
+      filenames,
     );
 
     return { message: 'success upload bookshelf' };

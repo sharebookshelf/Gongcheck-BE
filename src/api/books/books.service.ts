@@ -87,7 +87,7 @@ export class BooksService {
       ({ status, rank, book: { eaAddCode, setAddCode } }) => ({
         status,
         rank,
-        eaAddCode: eaAddCode || setAddCode,
+        eaAddCode: eaAddCode || setAddCode || '00000',
       }),
     );
     console.log({ refinedBooks });

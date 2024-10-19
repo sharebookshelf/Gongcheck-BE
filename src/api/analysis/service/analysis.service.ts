@@ -14,13 +14,29 @@ export class AnalysisService {
   ) {}
 
   async getAnalysisResult(userId: string) {
+    const labels = [
+      '기타',
+      '철학',
+      '종교',
+      '사회과학',
+      '자연과학',
+      '기술과학',
+      '예술',
+      '언어학',
+      '문학',
+      '역사',
+    ];
     const [user] = await this.userRepository.find({
       where: { userId },
     });
     const readingType = user.readingType;
     const categoryCounts = JSON.parse(user.categoryCounts);
+    const bookCountInfo = labels.map((label, index) => ({
+      category: label,
+      count: categoryCounts[index],
+    }));
 
-    return { readingType, categoryCounts };
+    return { readingType, categoryCounts, bookCountInfo };
   }
 
   async getAnalysisType(userId: string) {
